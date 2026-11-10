@@ -1,6 +1,8 @@
 // O gestor confirma um pedido: guarda o valor e envia ao cliente o email com a ligação de pagamento.
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { admin, cors, env, esc, euros, json, sendEmail } from "../_shared.ts";
+import { admin, cors, env, euros, json, sendEmail } from "../_shared.ts";
+import { paymentEmail } from "../_email.ts";
+import { LOGO_B64 } from "../_logo.ts";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
@@ -50,22 +52,12 @@ Deno.serve(async (req) => {
   // 4. Enviar o email com a ligação de pagamento
   const site = env("SITE_URL").replace(/\/$/, "");
   const link = `${site}/pagar.html?t=${order.pay_token}`;
-  const html = `<!doctype html><html lang="pt-PT"><body style="margin:0;background:#EEF2F8;font-family:Arial,Helvetica,sans-serif;color:#070F1E">
-<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
-<table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#fff;border-radius:20px;overflow:hidden">
-<tr><td style="background:#070F1E;padding:20px 32px;color:#fff;font-size:22px;font-weight:800"><img src="${site}/logo-96.png" width="36" height="36" alt="" style="vertical-align:middle;border-radius:10px;margin-right:10px"><span style="vertical-align:middle">FRAMIQ</span></td></tr>
-<tr><td style="padding:32px">
-<h1 style="margin:0 0 12px;font-size:26px;line-height:1.2">Olá ${esc(order.name)}, o seu pedido foi confirmado.</h1>
-<p style="margin:0 0 20px;font-size:16px;line-height:1.55">Analisámos o que nos pediu e podemos avançar. Para começarmos, falta o pagamento.</p>
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#EEF2F8;border-radius:14px"><tr><td style="padding:18px 20px;font-size:15px">
-Projeto: <strong>${esc(order.site_type ?? "Website")}</strong><br>Valor a pagar: <strong style="font-size:22px">${euros(cents)}</strong></td></tr></table>
-${note ? `<p style="margin:20px 0 0;font-size:15px;line-height:1.55"><em>${esc(note)}</em></p>` : ""}
-<p style="margin:28px 0"><a href="${link}" style="background:#2150FF;color:#fff;text-decoration:none;font-weight:700;font-size:17px;padding:16px 30px;border-radius:99px;display:inline-block">Pagar agora</a></p>
-<p style="margin:0;font-size:14px;color:#4a5568;line-height:1.55">Pode pagar com cartão, MB WAY ou referência Multibanco. Se o botão não abrir, copie esta ligação:<br><a href="${link}" style="color:#2150FF;word-break:break-all">${link}</a></p>
-</td></tr></table></td></tr></table></body></html>`;
+  const html = paymentEmail({ name: order.name, siteType: order.site_type ?? "Website", cents, note, link, logoSrc: "cid:framiq-logo" });
 
   try {
-    await sendEmail(order.email, `Pedido confirmado: pague ${euros(cents)} para começarmos`, html);
+    await sendEmail(order.email, `Pedido confirmado: pague ${euros(cents)} para começarmos`, html, [
+      { filename: "logo.png", content: LOGO_B64, content_type: "image/png", content_id: "framiq-logo" },
+    ]);
   } catch (e) {
     const m = (e as Error).message;
     const teste = m.includes("testing emails") || m.includes("verify a domain");
