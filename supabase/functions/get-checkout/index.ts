@@ -53,7 +53,7 @@ Deno.serve(async (req) => {
   });
   if (!ok || !data.url) {
     console.error("Stripe checkout falhou", JSON.stringify(data));
-    return json({ error: "Não foi possível iniciar o pagamento. Tente novamente dentro de instantes.", detail: String(data?.error?.message ?? "").slice(0, 160) }, 502);
+    return json({ error: "Não foi possível iniciar o pagamento. Tente novamente dentro de instantes." }, 502);
   }
   await db.from("orders").update({ stripe_session_id: data.id }).eq("id", o.id);
   return json({ status: "confirmado", url: data.url, ...view });
