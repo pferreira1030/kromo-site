@@ -204,7 +204,7 @@ function renderDetail(){
     if(!(cents>=100)){toast('Indique um valor de pelo menos 1 €.',true);return}
     const b=$('#cbtn');b.disabled=true;b.textContent='A enviar…';
     try{await confirmOrder(o,cents,$('#nt').value.trim());await load();toast('Pedido confirmado e email enviado a '+o.email);filter='confirmado';}
-    catch(err){toast(err.message,true)}render()});
+    catch(err){toast(err.message,true);await load();filter='confirmado'}render()});
   const rej=$('#rej');if(rej)rej.onclick=async()=>{try{await patch(o.id,{status:'recusado'});await load();toast('Pedido recusado.')}catch(e){toast(e.message,true)}filter='recusado';render()};
   const pd=$('#paid');if(pd)pd.onclick=async()=>{try{await patch(o.id,{status:'pago',paid_at:new Date().toISOString()});await load();toast('Marcado como pago.')}catch(e){toast(e.message,true)}filter='pago';render()};
 }

@@ -67,7 +67,14 @@ ${note ? `<p style="margin:20px 0 0;font-size:15px;line-height:1.55"><em>${esc(n
   try {
     await sendEmail(order.email, `Pedido confirmado: pague ${euros(cents)} para começarmos`, html);
   } catch (e) {
-    return json({ error: `Pedido confirmado, mas o email falhou: ${(e as Error).message}`, saved: true }, 502);
+    const m = (e as Error).message;
+    const teste = m.includes("testing emails") || m.includes("verify a domain");
+    return json({
+      error: teste
+        ? "Pedido confirmado, mas o email não saiu: o Resend ainda está em modo de teste e só envia para o email da conta Resend. Verifique um domínio em resend.com/domains para enviar a clientes."
+        : `Pedido confirmado, mas o email falhou: ${m}`,
+      saved: true,
+    }, 502);
   }
   await db.from("orders").update({ email_sent_at: new Date().toISOString() }).eq("id", order.id);
   return json({ ok: true, amount_cents: cents });
