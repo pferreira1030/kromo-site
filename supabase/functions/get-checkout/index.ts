@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
     merchant: { terminalId: Number(env("SIBS_TERMINAL_ID")), channel: "web", merchantTransactionId: merchantTx },
     transaction: {
       transactionTimestamp: new Date().toISOString(),
-      description: `Kromo - ${o.site_type ?? "Website"}`,
+      description: `FRAMIQ - ${o.site_type ?? "Website"}`,
       moto: false,
       paymentType: "PURS",
       amount: { value: o.amount_cents / 100, currency: "EUR" },

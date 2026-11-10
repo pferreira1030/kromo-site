@@ -1,4 +1,4 @@
--- Kromo: pedidos de orçamento e gestão de pagamentos
+-- FRAMIQ: pedidos de orçamento e gestão de pagamentos
 -- Cole este ficheiro no SQL Editor do Supabase e execute uma vez.
 
 create extension if not exists pgcrypto;

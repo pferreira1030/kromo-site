@@ -1,4 +1,4 @@
-# Kromo: site, gestão de pedidos e pagamento SIBS
+# FRAMIQ: site, gestão de pedidos e pagamento SIBS
 
 Ficheiros:
 
@@ -44,7 +44,7 @@ supabase login
 supabase link --project-ref SEU_PROJECT_REF
 supabase secrets set \
   SITE_URL=https://pferreira1030.github.io/kromo-site \
-  RESEND_API_KEY=... EMAIL_FROM="Kromo <pedidos@o-seu-dominio.pt>" \
+  RESEND_API_KEY=... EMAIL_FROM="FRAMIQ <pedidos@o-seu-dominio.pt>" \
   SIBS_TERMINAL_ID=... SIBS_CLIENT_ID=... SIBS_BEARER_TOKEN=... \
   SIBS_WEBHOOK_SECRET=... \
   SIBS_API_BASE=https://stargate.qly.site1.sibs.pt \

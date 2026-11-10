@@ -53,7 +53,7 @@ Deno.serve(async (req) => {
   const html = `<!doctype html><html lang="pt-PT"><body style="margin:0;background:#EEF2F8;font-family:Arial,Helvetica,sans-serif;color:#070F1E">
 <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
 <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#fff;border-radius:20px;overflow:hidden">
-<tr><td style="background:#070F1E;padding:24px 32px;color:#fff;font-size:24px;font-weight:800">kromo</td></tr>
+<tr><td style="background:#070F1E;padding:20px 32px;color:#fff;font-size:22px;font-weight:800"><img src="${site}/logo-96.png" width="36" height="36" alt="" style="vertical-align:middle;border-radius:10px;margin-right:10px"><span style="vertical-align:middle">FRAMIQ</span></td></tr>
 <tr><td style="padding:32px">
 <h1 style="margin:0 0 12px;font-size:26px;line-height:1.2">Olá ${esc(order.name)}, o seu pedido foi confirmado.</h1>
 <p style="margin:0 0 20px;font-size:16px;line-height:1.55">Analisámos o que nos pediu e podemos avançar. Para começarmos, falta o pagamento.</p>

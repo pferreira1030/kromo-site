@@ -3,10 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kromo Estúdio</title>
-<meta name="description" content="A Kromo desenha, programa e põe no ar websites para empresas, em 14 dias.">
+<title>FRAMIQ Estúdio</title>
+<meta name="description" content="A FRAMIQ desenha, programa e põe no ar websites para empresas, em 14 dias.">
 <meta name="theme-color" content="#070F1E">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -202,7 +201,7 @@ form .btn{justify-content:center;background:var(--night);color:#fff}
 #aviso{font-weight:700;min-height:1.4em;font-size:.95rem}
 footer{padding:64px 0 40px}
 footer .wrap{display:grid;gap:30px}
-footer .big{font-family:var(--display);font-weight:800;font-size:clamp(3.4rem,16vw,15rem);letter-spacing:-.06em;line-height:.8;padding:0 .08em .1em 0;color:transparent;-webkit-text-stroke:2px var(--fg)}
+footer .big{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,12.4vw,12rem);letter-spacing:-.06em;line-height:.8;padding:0 .08em .1em 0;color:transparent;-webkit-text-stroke:2px var(--fg)}
 footer p{opacity:.75;font-size:.92rem}
 
 /* ===== sites de exemplo (1200px de largura) ===== */
@@ -372,6 +371,7 @@ footer p{opacity:.75;font-size:.92rem}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
+.logo .mark{width:32px;height:32px;display:block;border-radius:9px;flex:none}
 </style>
 </head>
 <body>
@@ -381,7 +381,7 @@ footer p{opacity:.75;font-size:.92rem}
 
 <header>
   <nav class="nav" aria-label="Principal">
-    <a class="logo" href="#topo" aria-label="Kromo, início"><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18M6 12l11-9M6 12l11 9"/></svg></i>kromo</a>
+    <a class="logo" href="#topo" aria-label="FRAMIQ, início"><img class="mark" src="logo-96.png" width="32" height="32" alt="">FRAMIQ</a>
     <ul id="menu">
       <li><a href="#servicos">Serviços</a></li>
       <li><a href="#trabalhos">Trabalhos</a></li>
@@ -591,8 +591,8 @@ footer p{opacity:.75;font-size:.92rem}
 
 <footer data-bg="#070F1E" data-fg="#EEF2F8">
   <div class="wrap">
-    <div class="big" aria-hidden="true">kromo.</div>
-    <p>Estúdio de websites · Porto e Lisboa · ola@kromo.example</p>
+    <div class="big" aria-hidden="true">FRAMIQ.</div>
+    <p>Estúdio de websites · Porto e Lisboa · ola@framiq.example</p>
   </div>
 </footer>
 
@@ -616,7 +616,7 @@ $('#pedido').addEventListener('submit',async e=>{e.preventDefault();
       body:JSON.stringify({name:$('#f-nome').value.trim(),email:$('#f-email').value.trim(),site_type:$('#f-tipo').value,message:$('#f-msg').value.trim()})});
     if(!r.ok)throw new Error();
     e.target.reset();av.textContent='Pedido recebido. Respondemos em 24 horas.';
-  }catch{av.textContent='Não foi possível enviar. Tente de novo ou escreva-nos para ola@kromo.example.'}
+  }catch{av.textContent='Não foi possível enviar. Tente de novo ou escreva-nos para ola@framiq.example.'}
   btn.disabled=false;
 });
 /* menu */

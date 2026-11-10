@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Kromo · Pagamento</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>FRAMIQ · Pagamento</title>
 <link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -34,10 +34,11 @@ h1{font-family:var(--display);font-weight:800;font-size:1.8rem;line-height:1.1;l
 .safe{display:flex;gap:8px;align-items:center;justify-content:center;color:var(--mut);font-size:.82rem}
 @media(max-width:480px){.card{padding:24px}}
 @media(prefers-reduced-motion:reduce){.spin{animation:none}}
+.logo .mark{width:32px;height:32px;display:block;border-radius:9px;flex:none}
 </style>
 </head>
 <body>
-<header class="top"><a class="logo" href="index.html"><i><svg width="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v18M6 12l11-9M6 12l11 9"/></svg></i>kromo</a></header>
+<header class="top"><a class="logo" href="index.html"><img class="mark" src="logo-96.png" width="32" height="32" alt="">FRAMIQ</a></header>
 <main class="wrap">
   <section class="card" id="loading" aria-live="polite"><div class="spin" role="status" aria-label="A carregar"></div><p class="center mut">A preparar o seu pagamento…</p></section>
 
@@ -46,7 +47,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.8rem;line-height:1.1;l
     <p class="mut" id="who"></p>
     <div class="sum"><span id="proj"></span><b id="amt"></b></div>
     <div id="formBox"></div>
-    <p class="safe">Pagamento seguro processado pela SIBS. A Kromo não vê os dados do seu cartão.</p>
+    <p class="safe">Pagamento seguro processado pela SIBS. A FRAMIQ não vê os dados do seu cartão.</p>
   </section>
 
   <section class="card center" id="paid" hidden>
@@ -65,7 +66,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.8rem;line-height:1.1;l
   <section class="card center" id="err" hidden role="alert">
     <h1>Não foi possível abrir o pagamento</h1>
     <p class="mut" id="errTxt"></p>
-    <a class="btn" href="index.html#contacto">Falar com a Kromo</a>
+    <a class="btn" href="index.html#contacto">Falar com a FRAMIQ</a>
   </section>
 </main>
 
