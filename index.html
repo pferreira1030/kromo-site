@@ -52,6 +52,9 @@ h3{font-size:1.45rem;letter-spacing:-.02em;line-height:1.08}
 #cur.on{display:grid}
 #cur.big{width:70px;height:70px;margin:-35px 0 0 -35px}
 #cur.lbl{width:104px;height:104px;margin:-52px 0 0 -52px;background:#fff}
+#cur::after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;transition:opacity .2s}
+#cur.lbl::after{opacity:0}
+html.has-cur,html.has-cur *{cursor:none!important}
 #cur span{opacity:0;transition:opacity .2s}
 #cur.lbl span{opacity:1}
 
@@ -663,7 +666,7 @@ $$('.scene .frame').forEach((f,i)=>{const pg=$('.pg',f);gsap.to(pg,{y:()=>-(pg.o
 
 /* cursor */
 if(fine){
-  const cur=$('#cur');cur.classList.add('on');
+  const cur=$('#cur');cur.classList.add('on');root.classList.add('has-cur');
   const qx=gsap.quickTo(cur,'x',{duration:.3,ease:'power3'}),qy=gsap.quickTo(cur,'y',{duration:.3,ease:'power3'});
   addEventListener('pointermove',e=>{qx(e.clientX);qy(e.clientY)});
   document.addEventListener('pointerover',e=>{const t=e.target;cur.classList.toggle('lbl',!!t.closest('.work .frame'));cur.classList.toggle('big',!t.closest('.work .frame')&&!!t.closest('a,button,.card,.plan'))});
