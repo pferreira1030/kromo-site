@@ -44,8 +44,8 @@ Deno.serve(async (req) => {
     amount_cents: cents,
     manager_note: note ?? order.manager_note,
     confirmed_at: order.confirmed_at ?? new Date().toISOString(),
-    // novo valor invalida um checkout SIBS anterior
-    sibs_transaction_id: cents === order.amount_cents ? order.sibs_transaction_id : null,
+    // um valor novo invalida a sessão de pagamento anterior
+    stripe_session_id: cents === order.amount_cents ? order.stripe_session_id : null,
   }).eq("id", order.id);
   if (upErr) return json({ error: upErr.message }, 500);
 

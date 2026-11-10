@@ -57,7 +57,7 @@ ${note}
 
 <!-- passos -->
 <tr><td style="padding:26px 40px 8px"><table width="100%" cellpadding="0" cellspacing="0"><tr>
-  <td width="33%" valign="top" style="padding-right:8px"><div style="${HEAD}font-size:26px;color:#27D3FF">1</div><div style="${BODY}font-size:14px;line-height:1.5;color:#C9D3EA;margin-top:2px">Paga em segurança com a SIBS</div></td>
+  <td width="33%" valign="top" style="padding-right:8px"><div style="${HEAD}font-size:26px;color:#27D3FF">1</div><div style="${BODY}font-size:14px;line-height:1.5;color:#C9D3EA;margin-top:2px">Paga em segurança, online</div></td>
   <td width="33%" valign="top" style="padding:0 4px"><div style="${HEAD}font-size:26px;color:#FFB627">2</div><div style="${BODY}font-size:14px;line-height:1.5;color:#C9D3EA;margin-top:2px">Começamos o desenho logo a seguir</div></td>
   <td width="33%" valign="top" style="padding-left:8px"><div style="${HEAD}font-size:26px;color:#FF5A36">3</div><div style="${BODY}font-size:14px;line-height:1.5;color:#C9D3EA;margin-top:2px">O seu site no ar em cerca de 14 dias</div></td>
 </tr></table></td></tr>

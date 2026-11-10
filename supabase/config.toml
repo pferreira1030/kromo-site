@@ -1,9 +1,9 @@
-# As funções validam elas próprias quem chama (gestor autenticado, token do email ou cifra da SIBS).
+# As funções validam elas próprias quem chama (gestor autenticado, token do email ou assinatura do Stripe).
 [functions.confirm-order]
 verify_jwt = false
 
 [functions.get-checkout]
 verify_jwt = false
 
-[functions.sibs-webhook]
+[functions.stripe-webhook]
 verify_jwt = false

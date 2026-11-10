@@ -22,12 +22,10 @@ create table if not exists public.orders (
   confirmed_at timestamptz,
   email_sent_at timestamptz,
   paid_at timestamptz,
-  sibs_transaction_id text,
-  sibs_merchant_tx text
+  stripe_session_id text
 );
 
 create index if not exists orders_status_idx on public.orders (status, created_at desc);
-create index if not exists orders_sibs_idx on public.orders (sibs_transaction_id);
 
 create or replace function public.is_manager() returns boolean
 language sql stable security definer set search_path = public as $$

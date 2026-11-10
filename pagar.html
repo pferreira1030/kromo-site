@@ -46,8 +46,8 @@ h1{font-family:var(--display);font-weight:800;font-size:1.8rem;line-height:1.1;l
     <h1>Pagamento do seu pedido</h1>
     <p class="mut" id="who"></p>
     <div class="sum"><span id="proj"></span><b id="amt"></b></div>
-    <div id="formBox"></div>
-    <p class="safe">Pagamento seguro processado pela SIBS. A FRAMIQ não vê os dados do seu cartão.</p>
+    <a class="btn" id="go" href="#">Pagar com cartão, MB WAY ou Multibanco</a>
+    <p class="safe">Pagamento seguro processado pelo Stripe. A FRAMIQ não vê os dados do seu cartão.</p>
   </section>
 
   <section class="card center" id="paid" hidden>
@@ -59,7 +59,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.8rem;line-height:1.1;l
 
   <section class="card center" id="wait" hidden>
     <h1>À espera da confirmação</h1>
-    <p class="mut">Se escolheu pagar por referência Multibanco, o pagamento pode demorar a ser confirmado. Não precisa de fazer mais nada: avisamos por email assim que o recebermos.</p>
+    <p class="mut">Se escolheu pagar por referência Multibanco, o pagamento pode demorar a ser confirmado. Não precisa de fazer mais nada: assim que o recebermos, o pedido passa a pago.</p>
     <button class="btn" id="recheck" type="button">Verificar outra vez</button>
   </section>
 
@@ -84,19 +84,12 @@ async function call(body){
 async function run(check){
   const {ok,j}=await call({token,check});
   if(j.status==='pago'){$('#paidTxt').textContent='Vamos começar já o seu projeto'+(j.name?', '+j.name:'')+', e entramos em contacto em breve.';return show('paid')}
-  if(!ok&&!j.transactionID)return fail(j.error||'Esta ligação não é válida.');
-  if(check||done){ if(!j.transactionID)return show('wait') }
-  if(!j.transactionID)return show('wait');
-  $('#who').textContent=j.name?`Olá ${j.name}, escolha como quer pagar.`:'Escolha como quer pagar.';
+  if(!ok&&!j.url)return fail(j.error||'Esta ligação não é válida.');
+  if(check||done){if(!j.url)return show('wait')}
+  if(!j.url)return show('wait');
+  $('#who').textContent=j.name?`Olá ${j.name}, está tudo pronto para pagar.`:'Está tudo pronto para pagar.';
   $('#proj').textContent=j.site_type||'Website';$('#amt').textContent=j.amount;
-  const cfgForm={paymentMethodList:[],amount:{value:j.amount_cents/100,currency:'EUR'},language:'pt',redirectUrl:j.redirectUrl,customerData:null};
-  const f=document.createElement('form');f.className='paymentSPG';
-  f.setAttribute('spg-context',j.formContext);f.setAttribute('spg-config',JSON.stringify(cfgForm));
-  if(j.transactionSignature)f.setAttribute('spg-signature',j.transactionSignature);
-  $('#formBox').replaceChildren(f);
-  const s=document.createElement('script');s.src=`${j.widgetBase}/assets/js/widget.js?id=${encodeURIComponent(j.transactionID)}`;
-  s.onerror=()=>fail('Não foi possível carregar o formulário de pagamento.');
-  document.body.append(s);show('pay');
+  $('#go').href=j.url;show('pay');
 }
 if(!token)fail('Falta o código do pedido. Abra a ligação que recebeu por email.');
 else if(!cfg.SUPABASE_URL)fail('O sistema de pagamentos ainda não está configurado.');

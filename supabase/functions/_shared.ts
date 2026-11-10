@@ -17,14 +17,16 @@ export const admin = () => createClient(env("SUPABASE_URL"), env("SUPABASE_SERVI
   auth: { persistSession: false },
 });
 
-export const sibsBase = () => env("SIBS_API_BASE", "https://stargate.qly.site1.sibs.pt");
-export const sibsWidgetBase = () => env("SIBS_WIDGET_BASE", "https://spg.qly.site1.sibs.pt");
-
-export const sibsHeaders = () => ({
-  "Content-Type": "application/json",
-  "Authorization": `Bearer ${env("SIBS_BEARER_TOKEN")}`,
-  "X-IBM-Client-Id": env("SIBS_CLIENT_ID"),
-});
+// Pedido à API do Stripe (corpo em formato de formulário)
+export async function stripe(path: string, params?: Record<string, string>) {
+  const res = await fetch(`https://api.stripe.com/v1${path}`, {
+    method: params ? "POST" : "GET",
+    headers: { "Authorization": `Bearer ${env("STRIPE_SECRET_KEY")}`, ...(params ? { "Content-Type": "application/x-www-form-urlencoded" } : {}) },
+    body: params ? new URLSearchParams(params).toString() : undefined,
+  });
+  const data = await res.json().catch(() => ({}));
+  return { ok: res.ok, data };
+}
 
 export const euros = (cents: number) =>
   new Intl.NumberFormat("pt-PT", { style: "currency", currency: "EUR" }).format(cents / 100);

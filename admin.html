@@ -196,7 +196,7 @@ function renderDetail(){
     <label for="am">Valor a cobrar (€, com IVA)<span class="amt"><input id="am" type="number" min="1" max="100000" step="0.01" inputmode="decimal" value="${o.amount_cents?(o.amount_cents/100):''}" placeholder="0,00" required> <span class="hint">Cartão, MB WAY e Multibanco</span></span></label>
     <label for="nt">Nota para o cliente (aparece no email, opcional)<textarea id="nt">${esc(o.manager_note||'')}</textarea></label>
     <div class="actions"><button class="btn pri" type="submit" id="cbtn">${o.status==='confirmado'?'Reenviar email de pagamento':'Confirmar e enviar pagamento'}</button>${o.status==='novo'?'<button class="btn bad" type="button" id="rej">Recusar pedido</button>':''}${o.status==='confirmado'?'<button class="btn ok" type="button" id="paid">Marcar como pago</button>':''}</div>
-    <p class="hint">Ao confirmar, o cliente recebe um email com a ligação para pagar. O estado passa a “Pago” sozinho quando a SIBS confirmar.</p></form>`:''}
+    <p class="hint">Ao confirmar, o cliente recebe um email com a ligação para pagar. O estado passa a “Pago” sozinho quando o pagamento for confirmado.</p></form>`:''}
   <div class="timeline"><div>Pedido criado: ${dt(o.created_at)}</div>${o.confirmed_at?`<div>Confirmado: ${dt(o.confirmed_at)}</div>`:''}${o.email_sent_at?`<div>Email de pagamento enviado: ${dt(o.email_sent_at)}</div>`:''}${o.paid_at?`<div>Pago: ${dt(o.paid_at)}</div>`:''}</div></div>`;
   const cf=$('#cf');
   if(cf)cf.addEventListener('submit',async e=>{e.preventDefault();
