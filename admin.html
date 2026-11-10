@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kromo · Gestão de pedidos</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--night:#070F1E;--ink:#0D1830;--cobalt:#2150FF;--cyan:#27D3FF;--flame:#FF5A36;--sun:#FFB627;--ice:#EEF2F8;--mint:#1FBF8F;--line:#D9E0EC;--mut:#5A6578;
+--display:"Syne",system-ui,sans-serif;--body:"Instrument Sans",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--ice);color:var(--night);line-height:1.5;font-size:15.5px;min-height:100vh}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px;border-radius:6px}
+[hidden]{display:none!important}
+.top{background:var(--night);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 24px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:1.3rem;text-decoration:none;color:#fff}
+.logo i{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--cobalt),var(--cyan));display:grid;place-items:center}
+.logo small{font-family:var(--body);font-weight:600;opacity:.65;font-size:.85rem;margin-left:6px}
+.who{display:flex;align-items:center;gap:12px;font-size:.9rem;opacity:.9}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:99px;border:0;background:var(--night);color:#fff;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s,opacity .2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px -8px rgba(7,15,30,.5)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.pri{background:var(--cobalt)}.btn.ok{background:var(--mint);color:var(--night)}.btn.bad{background:transparent;color:#B42318;border:2px solid #F3B4AC}.btn.ghost{background:transparent;color:inherit;border:2px solid currentColor}
+.top .btn{min-height:38px;padding:0 16px;background:rgba(255,255,255,.14)}
+.banner{background:var(--sun);color:var(--night);padding:10px 24px;font-weight:600;font-size:.92rem}
+/* login */
+.login{max-width:420px;margin:12vh auto;background:#fff;border-radius:24px;padding:34px;box-shadow:0 30px 60px -30px rgba(7,15,30,.35);display:grid;gap:16px}
+.login h1{font-family:var(--display);font-size:1.9rem;line-height:1.05;letter-spacing:-.03em}
+label{display:grid;gap:6px;font-weight:600;font-size:.88rem}
+input,textarea,select{background:var(--ice);border:2px solid transparent;border-radius:12px;padding:11px 14px;min-height:46px;transition:border-color .2s,background .2s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--cobalt);background:#fff}
+textarea{min-height:84px;resize:vertical}
+.err{color:#B42318;font-weight:600;min-height:1.3em;font-size:.92rem}
+/* app */
+.app{max-width:1280px;margin:0 auto;padding:24px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:18px;padding:18px 20px}
+.kpi span{font-size:.82rem;font-weight:600;color:var(--mut)}
+.kpi b{display:block;font-family:var(--display);font-size:2rem;letter-spacing:-.03em;line-height:1.1;margin-top:4px}
+.main{display:grid;grid-template-columns:minmax(320px,430px) 1fr;gap:20px;align-items:start}
+.panel{background:#fff;border-radius:22px;overflow:hidden}
+.tools{padding:14px;border-bottom:1px solid var(--line);display:grid;gap:10px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:0;background:var(--ice);border-radius:99px;padding:8px 14px;font-weight:600;font-size:.85rem;cursor:pointer;display:flex;gap:6px;align-items:center;min-height:38px}
+.tab[aria-pressed=true]{background:var(--night);color:#fff}
+.tab em{font-style:normal;opacity:.7;font-size:.8rem}
+.list{max-height:68vh;overflow:auto}
+.row{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:14px 16px;border:0;border-bottom:1px solid var(--line);background:#fff;width:100%;text-align:left;cursor:pointer}
+.row:hover{background:#F6F8FC}
+.row[aria-current=true]{background:#E9EFFF;box-shadow:inset 4px 0 0 var(--cobalt)}
+.row b{font-weight:700}.row small{color:var(--mut)}
+.row .r{text-align:right;display:grid;gap:4px;justify-items:end;align-content:start}
+.pill{display:inline-block;font-size:.74rem;font-weight:700;padding:4px 10px;border-radius:99px;white-space:nowrap}
+.s-novo{background:#DCE6FF;color:#173DB8}.s-confirmado{background:#FFEBC2;color:#8A5A00}.s-pago{background:#CFF3E6;color:#0B6B4D}.s-recusado{background:#FADAD5;color:#9A1F13}
+.empty{padding:40px 20px;text-align:center;color:var(--mut)}
+.detail{padding:26px;display:grid;gap:20px}
+.detail h2{font-family:var(--display);font-size:1.7rem;letter-spacing:-.03em;line-height:1.1}
+.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.meta div{background:var(--ice);border-radius:14px;padding:12px 14px;font-size:.9rem}
+.meta span{display:block;color:var(--mut);font-size:.78rem;font-weight:600}
+.msg{background:var(--ice);border-radius:14px;padding:14px 16px;white-space:pre-wrap}
+.form{display:grid;gap:14px;border-top:1px solid var(--line);padding-top:20px}
+.amt{display:flex;align-items:center;gap:10px}
+.amt input{max-width:170px;font-weight:700;font-size:1.1rem}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.hint{color:var(--mut);font-size:.86rem}
+.timeline{display:grid;gap:6px;font-size:.86rem;color:var(--mut)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--night);color:#fff;padding:14px 22px;border-radius:14px;font-weight:600;z-index:30;max-width:92vw;box-shadow:0 20px 40px -10px rgba(0,0,0,.5)}
+.toast.bad{background:#B42318}
+dialog{border:0;border-radius:22px;padding:0;max-width:640px;width:92vw;box-shadow:0 40px 80px -20px rgba(0,0,0,.5)}
+dialog::backdrop{background:rgba(7,15,30,.6)}
+dialog .in{padding:26px;display:grid;gap:14px}
+dialog iframe{width:100%;height:420px;border:1px solid var(--line);border-radius:12px;background:#fff}
+@media(max-width:980px){.main{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.list{max-height:none}}
+@media(max-width:560px){.kpi{min-width:0;padding:14px}.kpi b{font-size:1.4rem}.top{padding:10px 16px}.app{padding:16px}.meta{grid-template-columns:1fr}.who span{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="index.html"><i><svg width="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v18M6 12l11-9M6 12l11 9"/></svg></i>kromo<small>Gestão de pedidos</small></a>
+  <div class="who" id="who" hidden><span id="whoMail"></span><button class="btn" id="logout" type="button">Sair</button></div>
+</header>
+<div class="banner" id="demoBanner" hidden>Modo demonstração: os pedidos são de exemplo, ficam só neste browser e os emails são simulados. Preencha <code>config.js</code> para ligar ao Supabase.</div>
+
+<main>
+<section class="login" id="login" hidden aria-labelledby="lt">
+  <h1 id="lt">Entrar na gestão</h1>
+  <p class="hint">Acesso reservado ao gestor da Kromo.</p>
+  <form id="loginForm" style="display:grid;gap:14px">
+    <label for="lm">Email<input id="lm" type="email" autocomplete="username" required></label>
+    <label for="lp">Palavra-passe<input id="lp" type="password" autocomplete="current-password" required></label>
+    <p class="err" id="lerr" role="alert"></p>
+    <button class="btn pri" type="submit">Entrar</button>
+  </form>
+</section>
+
+<div class="app" id="app" hidden>
+  <div class="kpis" id="kpis"></div>
+  <div class="main">
+    <section class="panel" aria-label="Lista de pedidos">
+      <div class="tools">
+        <div class="tabs" id="tabs" role="group" aria-label="Filtrar por estado"></div>
+        <label class="sr" for="q" style="position:absolute;left:-9999px">Pesquisar</label>
+        <input id="q" type="search" placeholder="Pesquisar por nome ou email">
+      </div>
+      <div class="list" id="list"></div>
+    </section>
+    <section class="panel" id="detailPanel" aria-live="polite"></section>
+  </div>
+</div>
+</main>
+
+<dialog id="mailDlg"><div class="in"><h2 style="font-family:var(--display)">Email enviado ao cliente (simulação)</h2><p class="hint" id="mailTo"></p><iframe id="mailFrame" title="Pré-visualização do email"></iframe><button class="btn pri" id="mailClose" type="button">Fechar</button></div></dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script>
+(()=>{
+const $=(s,c=document)=>c.querySelector(s);
+const cfg=window.KROMO||{};
+const demo=!cfg.SUPABASE_URL||!cfg.SUPABASE_ANON_KEY;
+const LABEL={novo:'Novo',confirmado:'Aguarda pagamento',pago:'Pago',recusado:'Recusado'};
+const eur=c=>new Intl.NumberFormat('pt-PT',{style:'currency',currency:'EUR'}).format(c/100);
+const dt=s=>s?new Date(s).toLocaleString('pt-PT',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let orders=[],filter='novo',sel=null,query='',sb=null,session=null;
+
+/* ---------- camada de dados ---------- */
+const DEMO_KEY='kromo-demo-orders';
+const seed=()=>{const h=3600e3,n=Date.now();return[
+ {id:'d1',created_at:new Date(n-2*h).toISOString(),name:'Marta Figueiredo',email:'marta@padariaazul.example',site_type:'Loja online',message:'Temos uma padaria em Braga e queremos vender bolos por encomenda com levantamento na loja.',status:'novo'},
+ {id:'d2',created_at:new Date(n-9*h).toISOString(),name:'Rui Tavares',email:'rui@tavaresadvogados.example',site_type:'Website institucional',message:'Precisamos de um site para o escritório, com página de equipa e marcação de consultas.',status:'novo'},
+ {id:'d3',created_at:new Date(n-30*h).toISOString(),name:'Inês Lacerda',email:'ines@ateliernuvem.example',site_type:'Landing page',message:'Lançamento de uma coleção de cerâmica em dezembro.',status:'confirmado',amount_cents:79000,confirmed_at:new Date(n-24*h).toISOString(),email_sent_at:new Date(n-24*h).toISOString()},
+ {id:'d4',created_at:new Date(n-80*h).toISOString(),name:'Hugo Carvalho',email:'hugo@oficinahc.example',site_type:'Website institucional',message:'Oficina auto em Viseu. Queremos mostrar serviços e preços.',status:'pago',amount_cents:189000,confirmed_at:new Date(n-70*h).toISOString(),email_sent_at:new Date(n-70*h).toISOString(),paid_at:new Date(n-60*h).toISOString()},
+ {id:'d5',created_at:new Date(n-120*h).toISOString(),name:'Teste Spam',email:'spam@example.example',site_type:'Ainda não sei',message:'ganhe dinheiro rápido',status:'recusado'}]};
+const demoLoad=()=>{try{const v=JSON.parse(localStorage.getItem(DEMO_KEY)||'null');if(v)return v}catch{}return seed()};
+const demoSave=()=>{try{localStorage.setItem(DEMO_KEY,JSON.stringify(orders))}catch{}};
+
+async function load(){
+  if(demo){orders=demoLoad();return}
+  const {data,error}=await sb.from('orders').select('*').order('created_at',{ascending:false});
+  if(error){toast(error.message,true);return}
+  orders=data;
+}
+async function patch(id,p){
+  if(demo){Object.assign(orders.find(o=>o.id===id),p);demoSave();return}
+  const {error}=await sb.from('orders').update(p).eq('id',id);
+  if(error)throw new Error(error.message);
+}
+async function confirmOrder(o,cents,note){
+  if(demo){
+    Object.assign(o,{status:'confirmado',amount_cents:cents,manager_note:note,confirmed_at:o.confirmed_at||new Date().toISOString(),email_sent_at:new Date().toISOString()});demoSave();
+    showMail(o);return}
+  const r=await fetch(cfg.SUPABASE_URL+'/functions/v1/confirm-order',{method:'POST',headers:{'Content-Type':'application/json',apikey:cfg.SUPABASE_ANON_KEY,Authorization:'Bearer '+session.access_token},body:JSON.stringify({order_id:o.id,amount_cents:cents,note})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(j.error||'Erro ao confirmar o pedido.');
+}
+function showMail(o){
+  const link=location.origin+location.pathname.replace('admin.html','')+'pagar.html?t=demo';
+  $('#mailTo').textContent='Para: '+o.email;
+  $('#mailFrame').srcdoc=`<body style="font-family:Arial;padding:20px;color:#070F1E"><div style="background:#070F1E;color:#fff;padding:16px 20px;border-radius:12px 12px 0 0;font-weight:800;font-size:20px">kromo</div><div style="border:1px solid #D9E0EC;border-top:0;padding:22px;border-radius:0 0 12px 12px"><h2 style="margin:0 0 10px">Olá ${esc(o.name)}, o seu pedido foi confirmado.</h2><p>Projeto: <b>${esc(o.site_type)}</b><br>Valor a pagar: <b style="font-size:20px">${eur(o.amount_cents)}</b></p>${o.manager_note?`<p><i>${esc(o.manager_note)}</i></p>`:''}<p><a href="#" style="background:#2150FF;color:#fff;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:99px;display:inline-block">Pagar agora</a></p><p style="font-size:13px;color:#5A6578">Cartão, MB WAY ou referência Multibanco.<br>${link}</p></div></body>`;
+  $('#mailDlg').showModal();
+}
+
+/* ---------- interface ---------- */
+function toast(t,bad){const e=document.createElement('div');e.className='toast'+(bad?' bad':'');e.setAttribute('role',bad?'alert':'status');e.textContent=t;document.body.append(e);setTimeout(()=>e.remove(),4200)}
+function counts(){const c={novo:0,confirmado:0,pago:0,recusado:0};orders.forEach(o=>c[o.status]++);return c}
+function render(){
+  const c=counts(),rev=orders.filter(o=>o.status==='pago').reduce((s,o)=>s+(o.amount_cents||0),0),pend=orders.filter(o=>o.status==='confirmado').reduce((s,o)=>s+(o.amount_cents||0),0);
+  $('#kpis').innerHTML=`<div class="kpi"><span>Novos pedidos</span><b>${c.novo}</b></div><div class="kpi"><span>A aguardar pagamento</span><b>${c.confirmado}</b></div><div class="kpi"><span>Por receber</span><b>${eur(pend)}</b></div><div class="kpi"><span>Recebido</span><b>${eur(rev)}</b></div>`;
+  const tabs=[['novo','Novos'],['confirmado','Aguardam pagamento'],['pago','Pagos'],['recusado','Recusados'],['todos','Todos']];
+  $('#tabs').innerHTML=tabs.map(([k,l])=>`<button class="tab" type="button" data-f="${k}" aria-pressed="${filter===k}">${l}<em>${k==='todos'?orders.length:c[k]}</em></button>`).join('');
+  const q=query.toLowerCase();
+  const rows=orders.filter(o=>(filter==='todos'||o.status===filter)&&(!q||(o.name+o.email).toLowerCase().includes(q)));
+  $('#list').innerHTML=rows.length?rows.map(o=>`<button class="row" type="button" data-id="${o.id}" aria-current="${sel===o.id}"><div><b>${esc(o.name)}</b><br><small>${esc(o.site_type||'Website')} · ${dt(o.created_at)}</small></div><div class="r"><span class="pill s-${o.status}">${LABEL[o.status]}</span>${o.amount_cents?`<small>${eur(o.amount_cents)}</small>`:''}</div></button>`).join(''):'<p class="empty">Sem pedidos nesta lista.</p>';
+  renderDetail();
+}
+function renderDetail(){
+  const p=$('#detailPanel'),o=orders.find(x=>x.id===sel);
+  if(!o){p.innerHTML='<p class="empty">Escolha um pedido na lista para o analisar.</p>';return}
+  const canAct=o.status==='novo'||o.status==='confirmado';
+  p.innerHTML=`<div class="detail">
+  <div><span class="pill s-${o.status}">${LABEL[o.status]}</span><h2 style="margin-top:10px">${esc(o.name)}</h2></div>
+  <div class="meta"><div><span>Email</span>${esc(o.email)}</div><div><span>Tipo de site</span>${esc(o.site_type||'Não indicado')}</div><div><span>Recebido</span>${dt(o.created_at)}</div><div><span>Valor</span>${o.amount_cents?eur(o.amount_cents):'Por definir'}</div></div>
+  <div><span class="hint">Mensagem do cliente</span><div class="msg">${esc(o.message||'Sem mensagem.')}</div></div>
+  ${canAct?`<form class="form" id="cf">
+    <label for="am">Valor a cobrar (€, com IVA)<span class="amt"><input id="am" type="number" min="1" max="100000" step="0.01" inputmode="decimal" value="${o.amount_cents?(o.amount_cents/100):''}" placeholder="0,00" required> <span class="hint">Cartão, MB WAY e Multibanco</span></span></label>
+    <label for="nt">Nota para o cliente (aparece no email, opcional)<textarea id="nt">${esc(o.manager_note||'')}</textarea></label>
+    <div class="actions"><button class="btn pri" type="submit" id="cbtn">${o.status==='confirmado'?'Reenviar email de pagamento':'Confirmar e enviar pagamento'}</button>${o.status==='novo'?'<button class="btn bad" type="button" id="rej">Recusar pedido</button>':''}${o.status==='confirmado'?'<button class="btn ok" type="button" id="paid">Marcar como pago</button>':''}</div>
+    <p class="hint">Ao confirmar, o cliente recebe um email com a ligação para pagar. O estado passa a “Pago” sozinho quando a SIBS confirmar.</p></form>`:''}
+  <div class="timeline"><div>Pedido criado: ${dt(o.created_at)}</div>${o.confirmed_at?`<div>Confirmado: ${dt(o.confirmed_at)}</div>`:''}${o.email_sent_at?`<div>Email de pagamento enviado: ${dt(o.email_sent_at)}</div>`:''}${o.paid_at?`<div>Pago: ${dt(o.paid_at)}</div>`:''}</div></div>`;
+  const cf=$('#cf');
+  if(cf)cf.addEventListener('submit',async e=>{e.preventDefault();
+    const cents=Math.round(parseFloat($('#am').value)*100);
+    if(!(cents>=100)){toast('Indique um valor de pelo menos 1 €.',true);return}
+    const b=$('#cbtn');b.disabled=true;b.textContent='A enviar…';
+    try{await confirmOrder(o,cents,$('#nt').value.trim());await load();toast('Pedido confirmado e email enviado a '+o.email);filter='confirmado';}
+    catch(err){toast(err.message,true)}render()});
+  const rej=$('#rej');if(rej)rej.onclick=async()=>{try{await patch(o.id,{status:'recusado'});await load();toast('Pedido recusado.')}catch(e){toast(e.message,true)}filter='recusado';render()};
+  const pd=$('#paid');if(pd)pd.onclick=async()=>{try{await patch(o.id,{status:'pago',paid_at:new Date().toISOString()});await load();toast('Marcado como pago.')}catch(e){toast(e.message,true)}filter='pago';render()};
+}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(b){filter=b.dataset.f;render()}});
+$('#list').addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(b){sel=b.dataset.id;render();if(innerWidth<981)$('#detailPanel').scrollIntoView({behavior:'smooth'})}});
+$('#q').addEventListener('input',e=>{query=e.target.value;render()});
+$('#mailClose').onclick=()=>$('#mailDlg').close();
+
+async function enter(){
+  $('#login').hidden=true;$('#app').hidden=false;$('#who').hidden=false;
+  $('#whoMail').textContent=demo?'Demonstração':session.user.email;
+  await load();
+  if(filter!=='todos'&&!orders.some(o=>o.status===filter))filter='todos';
+  render();
+  setInterval(async()=>{if(document.hidden)return;await load();render()},30000);
+}
+$('#logout').onclick=async()=>{if(demo){localStorage.removeItem(DEMO_KEY);location.reload();return}await sb.auth.signOut();location.reload()};
+
+if(demo){$('#demoBanner').hidden=false;enter()}
+else{
+  sb=supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY);
+  async function isManager(){const {data,error}=await sb.rpc('is_manager');return !error&&data===true}
+  sb.auth.getSession().then(async({data})=>{session=data.session;(session&&await isManager())?enter():($('#login').hidden=false)});
+  $('#loginForm').addEventListener('submit',async e=>{e.preventDefault();$('#lerr').textContent='';
+    const {data,error}=await sb.auth.signInWithPassword({email:$('#lm').value.trim(),password:$('#lp').value});
+    if(error){$('#lerr').textContent='Email ou palavra-passe incorretos.';return}
+    session=data.session;
+    if(!await isManager()){await sb.auth.signOut();$('#lerr').textContent='Esta conta não tem permissão de gestor.';return}
+    enter()});
+}
+})();
+</script>
+</body>
+</html>

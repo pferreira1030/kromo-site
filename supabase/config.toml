@@ -1,0 +1,9 @@
+# As funções validam elas próprias quem chama (gestor autenticado, token do email ou cifra da SIBS).
+[functions.confirm-order]
+verify_jwt = false
+
+[functions.get-checkout]
+verify_jwt = false
+
+[functions.sibs-webhook]
+verify_jwt = false

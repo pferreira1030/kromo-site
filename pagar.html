@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kromo · Pagamento</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--night:#070F1E;--cobalt:#2150FF;--cyan:#27D3FF;--sun:#FFB627;--mint:#1FBF8F;--ice:#EEF2F8;--mut:#5A6578;--display:"Syne",system-ui,sans-serif;--body:"Instrument Sans",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--night);color:var(--night);min-height:100vh;line-height:1.55;font-size:16px;position:relative;overflow-x:hidden}
+body::before,body::after{content:"";position:fixed;width:520px;height:520px;border-radius:50%;filter:blur(100px);opacity:.5;pointer-events:none}
+body::before{background:var(--cobalt);left:-160px;top:-160px}body::after{background:var(--cyan);right:-180px;bottom:-200px;opacity:.3}
+[hidden]{display:none!important}
+.top{position:relative;z-index:1;padding:20px 24px}
+.logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:1.4rem;text-decoration:none;color:#fff}
+.logo i{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--cobalt),var(--cyan));display:grid;place-items:center}
+.wrap{position:relative;z-index:1;max-width:560px;margin:2vh auto 60px;padding:0 16px}
+.card{background:#fff;border-radius:28px;padding:34px;box-shadow:0 40px 80px -30px rgba(0,0,0,.6);display:grid;gap:18px}
+h1{font-family:var(--display);font-weight:800;font-size:1.8rem;line-height:1.1;letter-spacing:-.03em}
+.sum{background:var(--ice);border-radius:16px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.sum b{font-family:var(--display);font-size:1.8rem;letter-spacing:-.03em}
+.mut{color:var(--mut);font-size:.92rem}
+.ok{width:76px;height:76px;border-radius:50%;background:var(--mint);display:grid;place-items:center;margin:0 auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 26px;border-radius:99px;border:0;background:var(--cobalt);color:#fff;font-weight:700;text-decoration:none;cursor:pointer}
+.spin{width:36px;height:36px;border:4px solid #D9E0EC;border-top-color:var(--cobalt);border-radius:50%;animation:s 1s linear infinite;margin:20px auto}
+@keyframes s{to{transform:rotate(360deg)}}
+.center{text-align:center}
+.safe{display:flex;gap:8px;align-items:center;justify-content:center;color:var(--mut);font-size:.82rem}
+@media(max-width:480px){.card{padding:24px}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}}
+</style>
+</head>
+<body>
+<header class="top"><a class="logo" href="index.html"><i><svg width="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v18M6 12l11-9M6 12l11 9"/></svg></i>kromo</a></header>
+<main class="wrap">
+  <section class="card" id="loading" aria-live="polite"><div class="spin" role="status" aria-label="A carregar"></div><p class="center mut">A preparar o seu pagamento…</p></section>
+
+  <section class="card" id="pay" hidden>
+    <h1>Pagamento do seu pedido</h1>
+    <p class="mut" id="who"></p>
+    <div class="sum"><span id="proj"></span><b id="amt"></b></div>
+    <div id="formBox"></div>
+    <p class="safe">Pagamento seguro processado pela SIBS. A Kromo não vê os dados do seu cartão.</p>
+  </section>
+
+  <section class="card center" id="paid" hidden>
+    <div class="ok"><svg width="38" viewBox="0 0 24 24" fill="none" stroke="#070F1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h1>Pagamento recebido. Obrigado!</h1>
+    <p class="mut" id="paidTxt">Vamos começar já o seu projeto e entramos em contacto em breve.</p>
+    <a class="btn" href="index.html">Voltar ao site</a>
+  </section>
+
+  <section class="card center" id="wait" hidden>
+    <h1>À espera da confirmação</h1>
+    <p class="mut">Se escolheu pagar por referência Multibanco, o pagamento pode demorar a ser confirmado. Não precisa de fazer mais nada: avisamos por email assim que o recebermos.</p>
+    <button class="btn" id="recheck" type="button">Verificar outra vez</button>
+  </section>
+
+  <section class="card center" id="err" hidden role="alert">
+    <h1>Não foi possível abrir o pagamento</h1>
+    <p class="mut" id="errTxt"></p>
+    <a class="btn" href="index.html#contacto">Falar com a Kromo</a>
+  </section>
+</main>
+
+<script src="config.js"></script>
+<script>
+(()=>{
+const $=s=>document.querySelector(s),cfg=window.KROMO||{};
+const q=new URLSearchParams(location.search),token=q.get('t'),done=q.get('done');
+const show=id=>{['loading','pay','paid','wait','err'].forEach(x=>$('#'+x).hidden=x!==id)};
+const fail=m=>{$('#errTxt').textContent=m;show('err')};
+async function call(body){
+  const r=await fetch(cfg.SUPABASE_URL+'/functions/v1/get-checkout',{method:'POST',headers:{'Content-Type':'application/json',apikey:cfg.SUPABASE_ANON_KEY},body:JSON.stringify(body)});
+  const j=await r.json().catch(()=>({}));return{ok:r.ok,j};
+}
+async function run(check){
+  const {ok,j}=await call({token,check});
+  if(j.status==='pago'){$('#paidTxt').textContent='Vamos começar já o seu projeto'+(j.name?', '+j.name:'')+', e entramos em contacto em breve.';return show('paid')}
+  if(!ok&&!j.transactionID)return fail(j.error||'Esta ligação não é válida.');
+  if(check||done){ if(!j.transactionID)return show('wait') }
+  if(!j.transactionID)return show('wait');
+  $('#who').textContent=j.name?`Olá ${j.name}, escolha como quer pagar.`:'Escolha como quer pagar.';
+  $('#proj').textContent=j.site_type||'Website';$('#amt').textContent=j.amount;
+  const cfgForm={paymentMethodList:[],amount:{value:j.amount_cents/100,currency:'EUR'},language:'pt',redirectUrl:j.redirectUrl,customerData:null};
+  const f=document.createElement('form');f.className='paymentSPG';
+  f.setAttribute('spg-context',j.formContext);f.setAttribute('spg-config',JSON.stringify(cfgForm));
+  if(j.transactionSignature)f.setAttribute('spg-signature',j.transactionSignature);
+  $('#formBox').replaceChildren(f);
+  const s=document.createElement('script');s.src=`${j.widgetBase}/assets/js/widget.js?id=${encodeURIComponent(j.transactionID)}`;
+  s.onerror=()=>fail('Não foi possível carregar o formulário de pagamento.');
+  document.body.append(s);show('pay');
+}
+if(!token)fail('Falta o código do pedido. Abra a ligação que recebeu por email.');
+else if(!cfg.SUPABASE_URL)fail('O sistema de pagamentos ainda não está configurado.');
+else run(!!done).catch(()=>fail('Sem ligação ao servidor. Tente novamente.'));
+$('#recheck').onclick=()=>{show('loading');run(true).catch(()=>fail('Sem ligação ao servidor.'))};
+})();
+</script>
+</body>
+</html>
