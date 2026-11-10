@@ -46,7 +46,7 @@ export function paymentEmail(o: { name: string; siteType: string; cents: number;
   <div style="height:1px;background:#223158;margin:18px 0;line-height:1px;font-size:1px">&nbsp;</div>
   <div style="${BODY}font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#8FA0C6">Valor a pagar</div>
   <div style="${HEAD}font-size:46px;line-height:1.1;letter-spacing:-1.5px;color:#FFB627;margin-top:4px">${euros(o.cents)}</div>
-  <div style="${BODY}font-size:13px;color:#8FA0C6;margin-top:6px">Cartão, MB WAY ou referência Multibanco</div>
+  <div style="${BODY}font-size:13px;color:#8FA0C6;margin-top:6px">Cartão ou MB WAY</div>
 </td></tr></table></td></tr>
 ${note}
 

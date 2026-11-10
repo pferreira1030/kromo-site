@@ -36,7 +36,7 @@ Sem `config.js` preenchido, `admin.html` abre em **modo demonstração** (dados 
 ### 3. Stripe (pagamentos)
 1. Crie conta em https://stripe.com/pt (pode registar-se como particular ou empresário em nome individual).
 2. Fique em **modo de teste** (interruptor "Test mode"). Em **Developers → API keys** copie a *Secret key* (`sk_test_...`).
-3. Em **Settings → Payment methods**, ative cartões, MB WAY e Multibanco (a disponibilidade depende da conta).
+3. Em **Settings → Payment methods**, confirme que cartões e MB WAY estão ativos (o Multibanco só aparece se a conta o tiver disponível).
 4. Em **Developers → Webhooks → Add endpoint**:
    - Endpoint URL: `https://SEU_PROJECT_REF.supabase.co/functions/v1/stripe-webhook`
    - Eventos: `checkout.session.completed` e `checkout.session.async_payment_succeeded`
