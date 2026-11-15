@@ -24,6 +24,11 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-padding-top:90px}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
+
 body{font-family:var(--body);background:var(--bg);color:var(--fg);line-height:1.55;font-size:17px;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 button,input,textarea,select{font:inherit;color:inherit}
@@ -480,6 +485,7 @@ footer p{opacity:.75;font-size:.92rem}
 
 
 <script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
@@ -504,8 +510,8 @@ $('#pedido').addEventListener('submit',async e=>{e.preventDefault();
 });
 /* menu */
 const bg=$('.burger'),menu=$('#menu');
-const close=()=>{menu.classList.remove('open');bg.setAttribute('aria-expanded','false');bg.setAttribute('aria-label','Abrir menu')};
-bg.addEventListener('click',()=>{const o=menu.classList.toggle('open');bg.setAttribute('aria-expanded',o);bg.setAttribute('aria-label',o?'Fechar menu':'Abrir menu')});
+const close=()=>{menu.classList.remove('open');window.__lenis&&window.__lenis.start();bg.setAttribute('aria-expanded','false');bg.setAttribute('aria-label','Abrir menu')};
+bg.addEventListener('click',()=>{const o=menu.classList.toggle('open');window.__lenis&&(o?window.__lenis.stop():window.__lenis.start());bg.setAttribute('aria-expanded',o);bg.setAttribute('aria-label',o?'Fechar menu':'Abrir menu')});
 menu.addEventListener('click',e=>{if(e.target.closest('a'))close()});
 addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 
@@ -529,6 +535,15 @@ const setCounts=()=>$$('[data-count]').forEach(n=>{ScrollTrigger.create({trigger
   rm?n.textContent=end+suf:gsap.to(o,{v:end,duration:1.6,ease:'power3.out',onUpdate:()=>n.textContent=Math.round(o.v)+suf});}})});
 setCounts();
 if(rm)return;
+
+/* scroll suave (Lenis) sincronizado com o ScrollTrigger */
+if(window.Lenis){
+  const lenis=new Lenis({lerp:.08,smoothWheel:true,wheelMultiplier:.9,anchors:true});
+  lenis.on('scroll',ScrollTrigger.update);
+  gsap.ticker.add(time=>{lenis.raf(time*1000)});
+  gsap.ticker.lagSmoothing(0);
+  window.__lenis=lenis;
+}
 
 /* barra de progresso */
 gsap.to('#bar',{scaleX:1,ease:'none',scrollTrigger:{trigger:document.body,start:'top top',end:'bottom bottom',scrub:.2}});
