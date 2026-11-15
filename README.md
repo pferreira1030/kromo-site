@@ -1,10 +1,10 @@
-# FRAMIQ: site, gestão de pedidos e pagamento Stripe
+# FRAMIQ: servidores e bots de Discord, gestão de pedidos e pagamento Stripe
 
 Ficheiros:
 
 | Ficheiro | Para quê |
 |---|---|
-| `index.html` | O site. O formulário de contacto cria um pedido na base de dados. |
+| `index.html` | O site da FRAMIQ (servidores e bots de Discord). O formulário de contacto cria um pedido na base de dados. |
 | `admin.html` | Página do gestor: vê pedidos, define o valor, confirma e envia o email de pagamento. |
 | `pagar.html` | Página que o cliente abre a partir do email e onde paga (Stripe). |
 | `config.js` | Endereço e chave pública do Supabase. |

@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
   // 4. Enviar o email com a ligação de pagamento
   const site = env("SITE_URL").replace(/\/$/, "");
   const link = `${site}/pagar.html?t=${order.pay_token}`;
-  const html = paymentEmail({ name: order.name, siteType: order.site_type ?? "Website", cents, note, link, logoSrc: "cid:framiq-logo" });
+  const html = paymentEmail({ name: order.name, siteType: order.site_type ?? "Projeto", cents, note, link, logoSrc: "cid:framiq-logo" });
 
   try {
     await sendEmail(order.email, `Pedido confirmado: pague ${euros(cents)} para começarmos`, html, [

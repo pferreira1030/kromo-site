@@ -137,10 +137,10 @@ let orders=[],filter='novo',sel=null,query='',sb=null,session=null;
 /* ---------- camada de dados ---------- */
 const DEMO_KEY='kromo-demo-orders';
 const seed=()=>{const h=3600e3,n=Date.now();return[
- {id:'d1',created_at:new Date(n-2*h).toISOString(),name:'Marta Figueiredo',email:'marta@padariaazul.example',site_type:'Loja online',message:'Temos uma padaria em Braga e queremos vender bolos por encomenda com levantamento na loja.',status:'novo'},
- {id:'d2',created_at:new Date(n-9*h).toISOString(),name:'Rui Tavares',email:'rui@tavaresadvogados.example',site_type:'Website institucional',message:'Precisamos de um site para o escritório, com página de equipa e marcação de consultas.',status:'novo'},
- {id:'d3',created_at:new Date(n-30*h).toISOString(),name:'Inês Lacerda',email:'ines@ateliernuvem.example',site_type:'Landing page',message:'Lançamento de uma coleção de cerâmica em dezembro.',status:'confirmado',amount_cents:79000,confirmed_at:new Date(n-24*h).toISOString(),email_sent_at:new Date(n-24*h).toISOString()},
- {id:'d4',created_at:new Date(n-80*h).toISOString(),name:'Hugo Carvalho',email:'hugo@oficinahc.example',site_type:'Website institucional',message:'Oficina auto em Viseu. Queremos mostrar serviços e preços.',status:'pago',amount_cents:189000,confirmed_at:new Date(n-70*h).toISOString(),email_sent_at:new Date(n-70*h).toISOString(),paid_at:new Date(n-60*h).toISOString()},
+ {id:'d1',created_at:new Date(n-2*h).toISOString(),name:'Marta Figueiredo',email:'marta@padariaazul.example',site_type:'Servidor de Discord',message:'Somos uma comunidade de jogos com 300 membros e queremos reorganizar canais e cargos.',status:'novo'},
+ {id:'d2',created_at:new Date(n-9*h).toISOString(),name:'Rui Tavares',email:'rui@tavaresadvogados.example',site_type:'Bot de Discord',message:'Precisamos de um bot de tickets para o suporte da nossa loja.',status:'novo'},
+ {id:'d3',created_at:new Date(n-30*h).toISOString(),name:'Inês Lacerda',email:'ines@ateliernuvem.example',site_type:'Servidor + bot',message:'Servidor novo para um clube de estudo, com bot de foco e ranking.',status:'confirmado',amount_cents:79000,confirmed_at:new Date(n-24*h).toISOString(),email_sent_at:new Date(n-24*h).toISOString()},
+ {id:'d4',created_at:new Date(n-80*h).toISOString(),name:'Hugo Carvalho',email:'hugo@oficinahc.example',site_type:'Bot de Discord',message:'Servidor de roleplay com verificação e candidaturas.',status:'pago',amount_cents:189000,confirmed_at:new Date(n-70*h).toISOString(),email_sent_at:new Date(n-70*h).toISOString(),paid_at:new Date(n-60*h).toISOString()},
  {id:'d5',created_at:new Date(n-120*h).toISOString(),name:'Teste Spam',email:'spam@example.example',site_type:'Ainda não sei',message:'ganhe dinheiro rápido',status:'recusado'}]};
 const demoLoad=()=>{try{const v=JSON.parse(localStorage.getItem(DEMO_KEY)||'null');if(v)return v}catch{}return seed()};
 const demoSave=()=>{try{localStorage.setItem(DEMO_KEY,JSON.stringify(orders))}catch{}};
@@ -181,7 +181,7 @@ function render(){
   $('#tabs').innerHTML=tabs.map(([k,l])=>`<button class="tab" type="button" data-f="${k}" aria-pressed="${filter===k}">${l}<em>${k==='todos'?orders.length:c[k]}</em></button>`).join('');
   const q=query.toLowerCase();
   const rows=orders.filter(o=>(filter==='todos'||o.status===filter)&&(!q||(o.name+o.email).toLowerCase().includes(q)));
-  $('#list').innerHTML=rows.length?rows.map(o=>`<button class="row" type="button" data-id="${o.id}" aria-current="${sel===o.id}"><div><b>${esc(o.name)}</b><br><small>${esc(o.site_type||'Website')} · ${dt(o.created_at)}</small></div><div class="r"><span class="pill s-${o.status}">${LABEL[o.status]}</span>${o.amount_cents?`<small>${eur(o.amount_cents)}</small>`:''}</div></button>`).join(''):'<p class="empty">Sem pedidos nesta lista.</p>';
+  $('#list').innerHTML=rows.length?rows.map(o=>`<button class="row" type="button" data-id="${o.id}" aria-current="${sel===o.id}"><div><b>${esc(o.name)}</b><br><small>${esc(o.site_type||'Projeto')} · ${dt(o.created_at)}</small></div><div class="r"><span class="pill s-${o.status}">${LABEL[o.status]}</span>${o.amount_cents?`<small>${eur(o.amount_cents)}</small>`:''}</div></button>`).join(''):'<p class="empty">Sem pedidos nesta lista.</p>';
   renderDetail();
 }
 function renderDetail(){
@@ -190,7 +190,7 @@ function renderDetail(){
   const canAct=o.status==='novo'||o.status==='confirmado';
   p.innerHTML=`<div class="detail">
   <div><span class="pill s-${o.status}">${LABEL[o.status]}</span><h2 style="margin-top:10px">${esc(o.name)}</h2></div>
-  <div class="meta"><div><span>Email</span>${esc(o.email)}</div><div><span>Tipo de site</span>${esc(o.site_type||'Não indicado')}</div><div><span>Recebido</span>${dt(o.created_at)}</div><div><span>Valor</span>${o.amount_cents?eur(o.amount_cents):'Por definir'}</div></div>
+  <div class="meta"><div><span>Email</span>${esc(o.email)}</div><div><span>Tipo de projeto</span>${esc(o.site_type||'Não indicado')}</div><div><span>Recebido</span>${dt(o.created_at)}</div><div><span>Valor</span>${o.amount_cents?eur(o.amount_cents):'Por definir'}</div></div>
   <div><span class="hint">Mensagem do cliente</span><div class="msg">${esc(o.message||'Sem mensagem.')}</div></div>
   ${canAct?`<form class="form" id="cf">
     <label for="am">Valor a cobrar (€, com IVA)<span class="amt"><input id="am" type="number" min="1" max="100000" step="0.01" inputmode="decimal" value="${o.amount_cents?(o.amount_cents/100):''}" placeholder="0,00" required> <span class="hint">Cartão e MB WAY</span></span></label>

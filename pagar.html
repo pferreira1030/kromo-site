@@ -88,7 +88,7 @@ async function run(check){
   if(check||done){if(!j.url)return show('wait')}
   if(!j.url)return show('wait');
   $('#who').textContent=j.name?`Olá ${j.name}, está tudo pronto para pagar.`:'Está tudo pronto para pagar.';
-  $('#proj').textContent=j.site_type||'Website';$('#amt').textContent=j.amount;
+  $('#proj').textContent=j.site_type||'Projeto';$('#amt').textContent=j.amount;
   $('#go').href=j.url;show('pay');
 }
 if(!token)fail('Falta o código do pedido. Abra a ligação que recebeu por email.');

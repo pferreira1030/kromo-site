@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
     "line_items[0][quantity]": "1",
     "line_items[0][price_data][currency]": "eur",
     "line_items[0][price_data][unit_amount]": String(o.amount_cents),
-    "line_items[0][price_data][product_data][name]": `FRAMIQ - ${o.site_type ?? "Website"}`,
+    "line_items[0][price_data][product_data][name]": `FRAMIQ - ${o.site_type ?? "Projeto"}`,
   });
   if (!ok || !data.url) {
     console.error("Stripe checkout falhou", JSON.stringify(data));
