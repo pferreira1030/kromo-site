@@ -193,7 +193,7 @@ function renderDetail(){
   <div class="meta"><div><span>Email</span>${esc(o.email)}</div><div><span>Tipo de projeto</span>${esc(o.site_type||'Não indicado')}</div><div><span>Recebido</span>${dt(o.created_at)}</div><div><span>Valor</span>${o.amount_cents?eur(o.amount_cents):'Por definir'}</div></div>
   <div><span class="hint">Mensagem do cliente</span><div class="msg">${esc(o.message||'Sem mensagem.')}</div></div>
   ${canAct?`<form class="form" id="cf">
-    <label for="am">Valor a cobrar (€, com IVA)<span class="amt"><input id="am" type="number" min="1" max="100000" step="0.01" inputmode="decimal" value="${o.amount_cents?(o.amount_cents/100):''}" placeholder="0,00" required> <span class="hint">Cartão e MB WAY</span></span></label>
+    <label for="am">Valor a cobrar (€, preço final)<span class="amt"><input id="am" type="number" min="1" max="100000" step="0.01" inputmode="decimal" value="${o.amount_cents?(o.amount_cents/100):''}" placeholder="0,00" required> <span class="hint">Cartão e MB WAY</span></span></label>
     <label for="nt">Nota para o cliente (aparece no email, opcional)<textarea id="nt">${esc(o.manager_note||'')}</textarea></label>
     <div class="actions"><button class="btn pri" type="submit" id="cbtn">${o.status==='confirmado'?'Reenviar email de pagamento':'Confirmar e enviar pagamento'}</button>${o.status==='novo'?'<button class="btn bad" type="button" id="rej">Recusar pedido</button>':''}${o.status==='confirmado'?'<button class="btn ok" type="button" id="paid">Marcar como pago</button>':''}</div>
     <p class="hint">Ao confirmar, o cliente recebe um email com a ligação para pagar. O estado passa a “Pago” sozinho quando o pagamento for confirmado.</p></form>`:''}

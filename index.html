@@ -35,7 +35,7 @@ button,input,textarea,select{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--cyan);outline-offset:3px;border-radius:6px}
 .wrap{width:var(--wrap);margin-inline:auto}
 h1,h2,h3{font-family:var(--display);line-height:.98;letter-spacing:-.035em;font-weight:800;text-wrap:balance}
-h2{font-size:clamp(2.1rem,4.7vw,4.3rem);line-height:1.02}
+h2{font-size:clamp(2rem,4.2vw,3.9rem);line-height:1.04}
 h3{font-size:1.45rem;letter-spacing:-.02em;line-height:1.08}
 .eyebrow{font-weight:700;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;display:block;opacity:.8}
 .skip{position:absolute;left:12px;top:-60px;background:var(--cyan);color:var(--night);padding:12px 18px;border-radius:10px;z-index:200;font-weight:700}
@@ -184,7 +184,7 @@ section{position:relative}
 
 /* contact */
 .contact .wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;align-items:start}
-.contact h2{font-size:clamp(1.9rem,5.8vw,5.2rem);max-width:11ch;overflow-wrap:anywhere}
+.contact h2{font-size:clamp(1.9rem,3.9vw,3.7rem);max-width:12ch}
 .contact .wrap>*{min-width:0}
 .contact .sub{margin-top:24px;font-size:1.15rem;max-width:30ch}
 form{background:#fff;color:#070F1E;border-radius:28px;padding:32px;display:grid;gap:16px;box-shadow:0 30px 60px -30px rgba(7,15,30,.5)}
@@ -295,6 +295,7 @@ footer p{opacity:.75;font-size:.92rem}
   .nav>.btn{display:none}
 }
 @media(max-width:620px){
+  .contact h2{overflow-wrap:anywhere}
   body{font-size:16px}
   .cards,.nums{grid-template-columns:1fr}
   .card{min-height:260px}
@@ -303,6 +304,25 @@ footer p{opacity:.75;font-size:.92rem}
   .hero .btn{width:100%;justify-content:center}
   .nums{grid-template-columns:1fr 1fr}
 }
+
+/* transições e abertura (GSAP trata das entradas) */
+h2{text-wrap:wrap}
+#intro{position:fixed;inset:0;z-index:300;background:#070F1E;display:grid;place-content:center;justify-items:center;gap:18px;color:#EEF2F8;animation:introFail .5s 3.5s forwards}
+#intro .mk{width:84px;height:84px;border-radius:24px;display:block}
+#intro .nm{font-family:var(--display);font-weight:800;font-size:1.6rem;letter-spacing:.4px}
+@keyframes introFail{to{opacity:0;visibility:hidden}}
+.nav ul a{position:relative}
+.nav ul a::after{content:"";position:absolute;left:16px;right:16px;bottom:9px;height:2px;background:currentColor;border-radius:2px;transform:scaleX(0);transform-origin:0 50%;transition:transform .45s var(--ease)}
+.nav ul a:hover::after,.nav ul a:focus-visible::after{transform:scaleX(1)}
+.chip{transition:background .35s var(--ease),color .35s var(--ease),transform .35s var(--ease),border-color .35s}
+.chip:hover{background:var(--fg);color:var(--bg);transform:translateY(-3px)}
+.work .item .frame{transition:transform .7s var(--ease),box-shadow .7s var(--ease)}
+.work .item:hover .frame{transform:translateY(-8px);box-shadow:0 50px 80px -40px rgba(7,15,30,.55)}
+.item .tag{transition:transform .4s var(--ease),background .3s,color .3s}
+.work .item:hover .tag{transform:translateX(-5px)}
+.plan .btn,.card{transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .35s}
+.price{font-variant-numeric:tabular-nums}
+@media(prefers-reduced-motion:reduce){#intro{display:none}}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
@@ -313,6 +333,7 @@ footer p{opacity:.75;font-size:.92rem}
 <a class="skip" href="#main">Saltar para o conteúdo</a>
 <div id="bar" aria-hidden="true"></div>
 <div id="cur" aria-hidden="true"><span>Explorar</span></div>
+<div id="intro" aria-hidden="true"><img class="mk" src="logo-96.png" width="84" height="84" alt=""><span class="nm">FRAMIQ</span></div>
 
 <header>
   <nav class="nav" aria-label="Principal">
@@ -448,13 +469,13 @@ footer p{opacity:.75;font-size:.92rem}
   <div class="wrap">
     <div class="rise"><span class="eyebrow">Planos</span><h2>Preços claros desde o início.</h2></div>
     <div class="plans">
-      <article class="plan rise"><h3>Servidor</h3><div class="price">149€<small> + IVA</small></div>
+      <article class="plan rise"><h3>Servidor</h3><div class="price"><span data-price="79">79</span>€<small> preço final</small></div>
         <ul><li>Canais, categorias e cargos</li><li>Permissões e regras</li><li>Bots de moderação configurados</li><li>Entrega em 3 dias</li></ul>
         <a class="btn" href="#contacto">Escolher Servidor</a></article>
-      <article class="plan pop rise"><span class="flag">Mais escolhido</span><h3>Bot à medida</h3><div class="price">349€<small> + IVA</small></div>
+      <article class="plan pop rise"><span class="flag">Mais escolhido</span><h3>Bot à medida</h3><div class="price"><span data-price="199">199</span>€<small> preço final</small></div>
         <ul><li>Até 5 comandos à medida</li><li>Botões, menus e mensagens ricas</li><li>Código entregue e documentado</li><li>Entrega em 7 dias</li></ul>
         <a class="btn" href="#contacto">Escolher Bot</a></article>
-      <article class="plan rise"><h3>Comunidade completa</h3><div class="price">449€<small> + IVA</small></div>
+      <article class="plan rise"><h3>Comunidade completa</h3><div class="price"><span data-price="299">299</span>€<small> preço final</small></div>
         <ul><li>Servidor completo e bot à medida</li><li>Verificação e tickets</li><li>Formação da equipa</li><li>30 dias de suporte</li></ul>
         <a class="btn" href="#contacto">Escolher Completo</a></article>
     </div>
@@ -486,15 +507,15 @@ footer p{opacity:.75;font-size:.92rem}
 
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
 <script>
 (()=>{
 const $=(s,c=document)=>c.querySelector(s), $$=(s,c=document)=>[...c.querySelectorAll(s)];
 const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 const root=document.documentElement;
-
 /* formulário */
 $('#pedido').addEventListener('submit',async e=>{e.preventDefault();
   const K=window.KROMO||{},av=$('#aviso'),btn=e.target.querySelector('button[type=submit]');
@@ -514,30 +535,20 @@ const close=()=>{menu.classList.remove('open');window.__lenis&&window.__lenis.st
 bg.addEventListener('click',()=>{const o=menu.classList.toggle('open');window.__lenis&&(o?window.__lenis.stop():window.__lenis.start());bg.setAttribute('aria-expanded',o);bg.setAttribute('aria-label',o?'Fechar menu':'Abrir menu')});
 menu.addEventListener('click',e=>{if(e.target.closest('a'))close()});
 addEventListener('keydown',e=>{if(e.key==='Escape')close()});
-
-/* clones dos sites no hero + escala das molduras */
+/* clones das janelas no hero + escala das molduras */
 $$('[data-clone]').forEach(f=>{const src=$(`.item[data-site="${f.dataset.clone}"] .frame`);f.innerHTML=src.innerHTML});
-const frames=()=>$$('.frame');
-const fit=()=>frames().forEach(f=>f.style.setProperty('--s',f.clientWidth/1200));
+const fit=()=>$$('.frame').forEach(f=>f.style.setProperty('--s',f.clientWidth/1200));
 fit();addEventListener('resize',fit);
-if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{fit();window.ScrollTrigger&&ScrollTrigger.refresh()});
-
-if(!window.gsap||!window.ScrollTrigger){ // sem animações: tudo visível
-  $$('.manif .w').forEach(w=>w.style.opacity=1);
-  $$('[data-count]').forEach(n=>n.textContent=n.dataset.count+(n.dataset.suffix||''));
-  return;
-}
-gsap.registerPlugin(ScrollTrigger);
-
-/* contadores */
-const setCounts=()=>$$('[data-count]').forEach(n=>{ScrollTrigger.create({trigger:n,start:'top 90%',once:true,onEnter:()=>{
-  const end=+n.dataset.count,suf=n.dataset.suffix||'',o={v:0};
-  rm?n.textContent=end+suf:gsap.to(o,{v:end,duration:1.6,ease:'power3.out',onUpdate:()=>n.textContent=Math.round(o.v)+suf});}})});
-setCounts();
-if(rm)return;
+const staticCounts=()=>$$('[data-count]').forEach(n=>n.textContent=n.dataset.count+(n.dataset.suffix||''));
+const hideIntro=()=>{const i=$('#intro');i&&i.remove()};
+const visibleH=pg=>Math.max(0,pg.offsetHeight-pg.parentElement.clientHeight);
+if(!window.gsap||!window.ScrollTrigger||!window.SplitText){staticCounts();hideIntro();return}
+gsap.registerPlugin(ScrollTrigger,SplitText);
+gsap.defaults({ease:'power3.out',duration:.9});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{fit();ScrollTrigger.refresh()});
 
 /* scroll suave (Lenis) sincronizado com o ScrollTrigger */
-if(window.Lenis){
+if(window.Lenis&&!rm){
   const lenis=new Lenis({lerp:.08,smoothWheel:true,wheelMultiplier:.9,anchors:true});
   lenis.on('scroll',ScrollTrigger.update);
   gsap.ticker.add(time=>{lenis.raf(time*1000)});
@@ -545,96 +556,137 @@ if(window.Lenis){
   window.__lenis=lenis;
 }
 
-/* barra de progresso */
-gsap.to('#bar',{scaleX:1,ease:'none',scrollTrigger:{trigger:document.body,start:'top top',end:'bottom bottom',scrub:.2}});
-
-/* título do hero letra a letra */
-$$('.split').forEach(h=>{
-  const walk=(node,out)=>node.childNodes.forEach(n=>{
-    if(n.nodeType===3){n.textContent.split(/(\s+)/).forEach(t=>{
-      if(!t)return;if(/^\s+$/.test(t)){out.append(' ');return}
-      const w=document.createElement('span');w.className='wd';w.setAttribute('aria-hidden','true');
-      [...t].forEach(c=>{const s=document.createElement('span');s.className='ch';s.textContent=c;w.append(s)});out.append(w)});}
-    else{const c=n.cloneNode(false);out.append(c);walk(n,c)}});
-  const clone=h.cloneNode(false);walk(h,clone);h.innerHTML=clone.innerHTML;
-});
-gsap.from('.split .ch',{yPercent:115,rotate:6,duration:1.1,ease:'expo.out',stagger:.018,delay:.15});
-gsap.from(['.hero .eyebrow','.hero .lead','.hero .cta','.hero .facts'],{y:30,opacity:0,duration:.9,ease:'power3.out',stagger:.12,delay:.6});
-gsap.from('.scene .frame, .badge',{y:90,opacity:0,scale:.92,duration:1.2,ease:'power3.out',stagger:.15,delay:.4});
-
-/* hero: rato (parallax em camadas + holofote) */
-const hero=$('.hero');
-if(fine){
-  hero.addEventListener('pointermove',e=>{
-    const r=hero.getBoundingClientRect(),nx=(e.clientX-r.left)/r.width-.5,ny=(e.clientY-r.top)/r.height-.5;
-    hero.style.setProperty('--mx',(nx+.5)*100+'%');hero.style.setProperty('--my',(ny+.5)*100+'%');
-    $$('[data-depth]',hero).forEach(el=>gsap.to(el,{x:-nx*el.dataset.depth*2,y:-ny*el.dataset.depth*2,duration:.9,ease:'power3.out',overwrite:'auto'}));
-    $$('.aurora i',hero).forEach((el,i)=>gsap.to(el,{x:nx*(60+i*40),y:ny*(60+i*40),duration:1.6,ease:'power2.out',overwrite:'auto'}));
-  });
-}
-gsap.to('.hero .copy',{yPercent:-12,ease:'none',scrollTrigger:{trigger:hero,start:'top top',end:'bottom top',scrub:true}});
-gsap.to('.hero .scene',{yPercent:-22,ease:'none',scrollTrigger:{trigger:hero,start:'top top',end:'bottom top',scrub:true}});
-/* páginas dos sites do hero a deslizar sozinhas */
-$$('.scene .frame').forEach((f,i)=>{const pg=$('.pg',f);gsap.to(pg,{y:()=>-Math.max(0,pg.offsetHeight-pg.parentElement.clientHeight),duration:14+i*3,ease:'sine.inOut',repeat:-1,yoyo:true,delay:i})});
-
-/* cursor */
-if(fine){
+/* cursor, botões magnéticos e holofote (só com rato; quickTo para ser leve) */
+if(fine&&!rm){
   const cur=$('#cur');cur.classList.add('on');root.classList.add('has-cur');
   const qx=gsap.quickTo(cur,'x',{duration:.3,ease:'power3'}),qy=gsap.quickTo(cur,'y',{duration:.3,ease:'power3'});
   addEventListener('pointermove',e=>{qx(e.clientX);qy(e.clientY)});
   document.addEventListener('pointerover',e=>{const t=e.target;cur.classList.toggle('lbl',!!t.closest('.work .frame'));cur.classList.toggle('big',!t.closest('.work .frame')&&!!t.closest('a,button,.card,.plan'))});
-  /* botões magnéticos */
   $$('.btn').forEach(b=>{
-    b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();gsap.to(b,{x:(e.clientX-r.left-r.width/2)*.25,y:(e.clientY-r.top-r.height/2)*.35,duration:.4,ease:'power3.out'})});
-    b.addEventListener('pointerleave',()=>gsap.to(b,{x:0,y:0,duration:.7,ease:'elastic.out(1,.4)'}));
+    const bx=gsap.quickTo(b,'x',{duration:.6,ease:'elastic.out(1,.5)'}),by=gsap.quickTo(b,'y',{duration:.6,ease:'elastic.out(1,.5)'});
+    b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();bx((e.clientX-r.left-r.width/2)*.28);by((e.clientY-r.top-r.height/2)*.38)});
+    b.addEventListener('pointerleave',()=>{bx(0);by(0)});
   });
-  /* holofote nos cartões */
   $$('.card,.plan').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--px',(e.clientX-r.left)+'px');c.style.setProperty('--py',(e.clientY-r.top)+'px')}));
 }
 
-/* marquee reage ao scroll */
-const mq=$('#mq'),mt=gsap.to(mq,{xPercent:-50,duration:30,ease:'none',repeat:-1});
-ScrollTrigger.create({onUpdate:s=>{const v=s.getVelocity();gsap.to(mt,{timeScale:1+Math.abs(v)/260,duration:.3,overwrite:true,onComplete:()=>gsap.to(mt,{timeScale:1,duration:1})});gsap.to(mq,{skewX:gsap.utils.clamp(-8,8,-v/260),duration:.4,overwrite:'auto'})}});
-
-/* manifesto: palavras acendem com o scroll */
-const mtx=$('#mtext');mtx.setAttribute('aria-label',mtx.textContent);
-mtx.innerHTML=mtx.textContent.split(' ').map(w=>`<span class="w" aria-hidden="true">${w}</span>`).join(' ');
-gsap.to('.manif .w',{opacity:1,stagger:.12,ease:'none',scrollTrigger:{trigger:'#manifesto',start:'top 65%',end:'center 40%',scrub:true}});
-
-/* tudo o que aparece ao descer */
-gsap.set('.rise',{opacity:0,y:70});
-ScrollTrigger.batch('.rise',{start:'top 90%',once:true,onEnter:b=>gsap.to(b,{opacity:1,y:0,duration:1,ease:'power3.out',stagger:.12})});
-
-/* trabalhos: scroll horizontal fixo e páginas a navegar */
-const work=$('#work')||$('#trabalhos'),track=$('#track'),items=$$('.item');
+const work=$('#trabalhos'),track=$('#track'),items=$$('.item');
 const mm=gsap.matchMedia();
-mm.add('(min-width:901px)',()=>{
-  work.classList.add('pin');
-  const total=()=>track.scrollWidth-innerWidth;
-  const upd=()=>items.forEach(it=>{
-    const f=$('.frame',it),pg=$('.pg',f),r=f.getBoundingClientRect();
-    const start=innerWidth*.9,end=(innerWidth-r.width)/2;
-    const p=gsap.utils.clamp(0,1,(start-r.left)/(start-end));
-    const e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
-    gsap.set(pg,{y:-e*Math.max(0,pg.offsetHeight-pg.parentElement.clientHeight)});
+const start=()=>mm.add({anim:'(prefers-reduced-motion: no-preference)',desk:'(min-width: 901px)'},ctx=>{
+  const {anim,desk}=ctx.conditions;
+  if(!anim){staticCounts();hideIntro();return}
+  const cleanups=[];
+
+  /* 1. trabalhos: criado primeiro para o ScrollTrigger contar o espaço da secção fixa (ver ordem dos triggers) */
+  if(desk){
+    work.classList.add('pin');
+    const total=()=>track.scrollWidth-innerWidth;
+    const upd=()=>items.forEach(it=>{
+      const f=$('.frame',it),pg=$('.pg',f),r=f.getBoundingClientRect();
+      const start=innerWidth*.9,end=(innerWidth-r.width)/2;
+      const p=gsap.utils.clamp(0,1,(start-r.left)/(start-end));
+      gsap.set(pg,{y:-gsap.parseEase('power2.inOut')(p)*visibleH(pg)});
+    });
+    gsap.to(track,{x:()=>-total(),ease:'none',scrollTrigger:{trigger:work,start:'top top',end:()=>'+='+(total()*1.1),pin:true,scrub:.8,invalidateOnRefresh:true,onUpdate:upd,onRefresh:upd}});
+    cleanups.push(()=>{work.classList.remove('pin');gsap.set(track,{clearProps:'all'});$$('.pg',work).forEach(p=>gsap.set(p,{clearProps:'all'}))});
+  }else{
+    items.forEach(it=>{const pg=$('.pg',it);gsap.to(pg,{y:()=>-visibleH(pg),ease:'none',scrollTrigger:{trigger:it,start:'top 80%',end:'bottom 30%',scrub:.8,invalidateOnRefresh:true}})});
+  }
+
+  /* 2. barra de progresso */
+  gsap.to('#bar',{scaleX:1,ease:'none',scrollTrigger:{trigger:document.body,start:'top top',end:'bottom bottom',scrub:.3}});
+
+  /* 3. entrada: cortina com o logótipo, navegação, título por letras e janelas do hero */
+  const hero=$('.hero');
+  const split=SplitText.create('.hero h1',{type:'words,chars',mask:'words'});
+  if(!window.__introDone){
+    window.__lenis&&window.__lenis.stop();
+    const master=gsap.timeline({defaults:{ease:'power4.out'},onComplete:()=>{window.__introDone=true;window.__lenis&&window.__lenis.start()}});
+    const intro=$('#intro');
+    if(intro){
+      master.fromTo('#intro .mk',{scale:.55,autoAlpha:0,rotate:-12},{scale:1,autoAlpha:1,rotate:0,duration:.8,ease:'back.out(1.8)'})
+            .fromTo('#intro .nm',{autoAlpha:0,y:12},{autoAlpha:1,y:0,duration:.5},'<.25')
+            .to(intro,{yPercent:-100,duration:1,ease:'expo.inOut',onComplete:()=>intro.remove()},'+=.25');
+    }
+    master.from('.nav',{y:-90,autoAlpha:0,duration:.9},intro?'-=.55':0)
+          .from(split.chars,{yPercent:125,rotate:5,stagger:.02,duration:1.15,ease:'expo.out'},'<.05')
+          .from('.hero .eyebrow',{autoAlpha:0,y:18,duration:.7},'<.1')
+          .from('.hero .lead',{autoAlpha:0,y:24,duration:.8},'-=.7')
+          .from('.hero .cta>*',{autoAlpha:0,y:26,stagger:.1,duration:.8},'<.1')
+          .from('.hero .facts>*',{autoAlpha:0,y:22,stagger:.1,duration:.8},'<.15')
+          .from('.scene .frame',{autoAlpha:0,y:110,scale:.92,stagger:.16,duration:1.3},0.35+(intro?1.6:0))
+          .from('.badge',{autoAlpha:0,scale:.3,rotate:-120,duration:1,ease:'back.out(1.8)'},'>-.6');
+  }
+
+  /* hero: parallax com o rato (quickTo criado no primeiro movimento) */
+  if(fine){
+    let layers=null;
+    const onMove=e=>{
+      const r=hero.getBoundingClientRect(),nx=(e.clientX-r.left)/r.width-.5,ny=(e.clientY-r.top)/r.height-.5;
+      hero.style.setProperty('--mx',(nx+.5)*100+'%');hero.style.setProperty('--my',(ny+.5)*100+'%');
+      if(!layers){
+        const mk=(el,k,dur,ease)=>({k,x:gsap.quickTo(el,'x',{duration:dur,ease}),y:gsap.quickTo(el,'y',{duration:dur,ease})});
+        layers=[...$$('[data-depth]',hero).map(el=>mk(el,-el.dataset.depth*2,.9,'power3.out')),...$$('.aurora i',hero).map((el,i)=>mk(el,60+i*40,1.6,'power2.out'))];
+      }
+      layers.forEach(l=>{l.x(nx*l.k);l.y(ny*l.k)});
+    };
+    hero.addEventListener('pointermove',onMove);
+    cleanups.push(()=>hero.removeEventListener('pointermove',onMove));
+  }
+  gsap.to('.hero .copy',{yPercent:-12,ease:'none',scrollTrigger:{trigger:hero,start:'top top',end:'bottom top',scrub:.6}});
+  gsap.to('.hero .scene',{yPercent:-22,ease:'none',scrollTrigger:{trigger:hero,start:'top top',end:'bottom top',scrub:.6}});
+  $$('.scene .frame').forEach((f,i)=>{const pg=$('.pg',f);gsap.to(pg,{y:()=>-visibleH(pg),duration:14+i*3,ease:'sine.inOut',repeat:-1,yoyo:true,delay:i})});
+
+  /* 4. faixa: acelera e inclina com a velocidade do scroll */
+  const mq=$('#mq'),mt=gsap.to(mq,{xPercent:-50,duration:30,ease:'none',repeat:-1});
+  const skew=gsap.quickTo(mq,'skewX',{duration:.5,ease:'power3'});
+  ScrollTrigger.create({onUpdate:s=>{const v=s.getVelocity();skew(gsap.utils.clamp(-8,8,-v/260));gsap.to(mt,{timeScale:1+Math.abs(v)/260,duration:.3,overwrite:true,onComplete:()=>gsap.to(mt,{timeScale:1,duration:1})})}});
+
+  /* 5. manifesto: palavras acendem com o scroll */
+  const ms=SplitText.create('#mtext',{type:'words'});
+  gsap.fromTo(ms.words,{opacity:.16},{opacity:1,stagger:.12,ease:'none',scrollTrigger:{trigger:'#manifesto',start:'top 65%',end:'center 40%',scrub:true}});
+
+  /* 6. títulos das secções: linhas que sobem de dentro de uma máscara */
+  $$('.rise').filter(w=>w.querySelector('h2')).forEach(w=>{
+    w.classList.remove('rise');
+    const eb=$('.eyebrow',w),sub=$('.sub',w);
+    SplitText.create($('h2',w),{type:'lines',mask:'lines',autoSplit:true,onSplit(self){
+      const tl=gsap.timeline({scrollTrigger:{trigger:w,start:'top 82%',once:true}});
+      if(eb)tl.from(eb,{autoAlpha:0,y:14,duration:.6});
+      tl.from(self.lines,{yPercent:118,stagger:.1,duration:1.05,ease:'expo.out'},eb?'<.08':0);
+      if(sub)tl.from(sub,{autoAlpha:0,y:22,duration:.8},'<.4');
+      return tl;
+    }});
   });
-  gsap.to(track,{x:()=>-total(),ease:'none',scrollTrigger:{trigger:work,start:'top top',end:()=>'+='+(total()*1.1),pin:true,scrub:.7,invalidateOnRefresh:true,onUpdate:upd,onRefresh:upd}});
-  return()=>{work.classList.remove('pin');gsap.set(track,{clearProps:'all'});$$('.pg').forEach(p=>gsap.set(p,{clearProps:'all'}))};
+
+  /* 7. cartões, planos, chips e texto: entram em escada (transform limpo no fim para o hover CSS funcionar) */
+  gsap.set('.rise',{autoAlpha:0,y:64});
+  ScrollTrigger.batch('.rise',{start:'top 90%',once:true,onEnter:b=>gsap.to(b,{autoAlpha:1,y:0,duration:1.05,ease:'power3.out',stagger:.12,clearProps:'transform,opacity,visibility'})});
+
+  /* 8. números e preços a contar */
+  $$('[data-count]').forEach(n=>{ScrollTrigger.create({trigger:n,start:'top 92%',once:true,onEnter:()=>{
+    const end=+n.dataset.count,suf=n.dataset.suffix||'',o={v:0};
+    gsap.to(o,{v:end,duration:1.6,ease:'power3.out',onUpdate:()=>n.textContent=Math.round(o.v)+suf});}})});
+  $$('[data-price]').forEach(n=>{const end=+n.dataset.price,o={v:0};n.textContent='0';
+    ScrollTrigger.create({trigger:n,start:'top 92%',once:true,onEnter:()=>gsap.to(o,{v:end,duration:1.5,ease:'power3.out',onUpdate:()=>n.textContent=Math.round(o.v)})})});
+
+  /* 9. processo: a linha desenha-se e os passos aparecem */
+  const tl=gsap.timeline({scrollTrigger:{trigger:'#steps',start:'top 75%',end:'bottom 55%',scrub:.8}});
+  tl.fromTo('#lfill',{scaleX:0},{scaleX:1,ease:'none',duration:4},0);
+  $$('.step').forEach((s,i)=>{tl.from(s,{autoAlpha:0,y:60,duration:1,ease:'power2.out'},i);tl.from($('.dot',s),{scale:.4,duration:.6,ease:'back.out(2)'},i)});
+
+  /* 10. rodapé: letras do nome sobem uma a uma */
+  const fb=SplitText.create('footer .big',{type:'chars',mask:'chars',aria:'none'});
+  gsap.from(fb.chars,{yPercent:115,stagger:.07,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:'footer',start:'top 88%',once:true}});
+
+  /* 11. cor da página muda com o scroll (criado no fim: depois do pin) */
+  $$('[data-bg]').forEach(s=>ScrollTrigger.create({trigger:s,start:'top 55%',end:(s===work&&desk)?()=>'+='+(Math.max(0,track.scrollWidth-innerWidth)*1.1+innerHeight*.45):'bottom 55%',invalidateOnRefresh:true,
+    onToggle:self=>{if(self.isActive)gsap.to(root,{'--bg':s.dataset.bg,'--fg':s.dataset.fg,duration:1.1,ease:'power2.inOut',overwrite:'auto'})}}));
+
+  ScrollTrigger.refresh();
+  return()=>cleanups.forEach(f=>f());
 });
-mm.add('(max-width:900px)',()=>{
-  items.forEach(it=>{const pg=$('.pg',it);gsap.to(pg,{y:()=>-Math.max(0,pg.offsetHeight-pg.parentElement.clientHeight),ease:'none',scrollTrigger:{trigger:it,start:'top 80%',end:'bottom 30%',scrub:.6,invalidateOnRefresh:true}})});
-});
-
-/* cor da página muda com o scroll */
-$$('[data-bg]').forEach(s=>ScrollTrigger.create({trigger:s,start:'top 55%',end:'bottom 55%',
-  onToggle:self=>{if(self.isActive)gsap.to(root,{'--bg':s.dataset.bg,'--fg':s.dataset.fg,duration:.9,ease:'power2.out',overwrite:'auto'})}}));
-
-/* processo: linha desenha-se e os passos aparecem */
-const tl=gsap.timeline({scrollTrigger:{trigger:'#steps',start:'top 75%',end:'bottom 55%',scrub:.6}});
-tl.fromTo('#lfill',{scaleX:0},{scaleX:1,ease:'none',duration:4},0);
-$$('.step').forEach((s,i)=>{tl.from(s,{opacity:0,y:60,duration:1,ease:'power2.out'},i*1)});
-$$('.step .dot').forEach((d,i)=>tl.from(d,{scale:.4,duration:.6,ease:'back.out(2)'},i*1));
-
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(start);
 window.addEventListener('load',()=>ScrollTrigger.refresh());
 })();
 </script>
